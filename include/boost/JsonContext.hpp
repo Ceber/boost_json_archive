@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <memory>
 #include <stack>
 
 // Boost Archive JSON
@@ -10,7 +11,6 @@
 #include <boost/serialization/nvp.hpp>
 #include <boost/serialization/string.hpp>
 
-#include <iostream>
 
 namespace param {
 const std::string ClassNameType("class_name");
