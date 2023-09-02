@@ -1,5 +1,6 @@
 # `boost::archive::json`
 
+![Workflow](https://github.com/Ceber/boost_json_archive/actions/workflows/cmake-single-platform.yml/badge.svg)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/ceber68)
 
 ## Background
