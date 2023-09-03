@@ -75,3 +75,6 @@ At least CMake v3.13.
 
 ### Only tested on Linux
 Probably only working on Linux ?
+
+### Memory Leak in tests ?
+I think I forgot to free some pointers...oups...
