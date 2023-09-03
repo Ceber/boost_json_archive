@@ -8,7 +8,7 @@ from conan.tools.layout import cmake_layout
 class Boost_Json_ArchiveConan(ConanFile):
     name = "boost_json_archive"
     author = "<Ceber> <contact@cedev.pro>"
-    url = "https://home.ergen.fr/gitlab/cpp/libs/boost_json_archive"
+    url = "https://github.com/Ceber/boost_json_archive"
     description = "C++ Boost::boost_json_archive 2nd party - Json for boost::serialization."
 
     settings = "os", "compiler", "build_type", "arch"
