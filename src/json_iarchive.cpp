@@ -54,7 +54,6 @@ void json_iarchive::load_override(object_reference_type &t) {
   }
 
   t = object_reference_type(object_id_type(data.as_int64()));
-  m_ref = true;
 }
 
 void json_iarchive::load_override(class_id_type &t) {

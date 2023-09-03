@@ -170,6 +170,8 @@ public:
 
   ~ObjectsPtrsList() = default;
 
+  const std::vector<std::shared_ptr<Object>> &get() const { return m_list; }
+  void clear() { m_list.clear(); }
   bool get_a() const { return std::dynamic_pointer_cast<BoolsObject>(m_list.at(0))->get_a(); }
   bool get_b() const { return std::dynamic_pointer_cast<BoolsObject>(m_list.at(1))->get_b(); }
   bool get_c() const { return std::dynamic_pointer_cast<BoolsObject>(m_list.at(2))->get_c(); }
@@ -184,6 +186,62 @@ public:
 };
 
 BOOST_CLASS_EXPORT_KEY(ObjectsPtrsList)
+
+class ObjectsWeakPtrsList {
+private:
+  std::vector<std::weak_ptr<Object>> m_list;
+
+public:
+  ObjectsWeakPtrsList(const std::vector<std::weak_ptr<Object>> &list = {}) : m_list(list) {}
+
+  ~ObjectsWeakPtrsList() = default;
+
+  const std::vector<std::weak_ptr<Object>> &get() const { return m_list; }
+  void clear() { m_list.clear(); }
+
+  template <typename ArchiveT> inline void serialize(ArchiveT &ar, [[maybe_unused]] const unsigned int file_version) {
+    ar &BOOST_SERIALIZATION_NVP(m_list);
+  }
+};
+
+BOOST_CLASS_EXPORT_KEY(ObjectsWeakPtrsList)
+
+class ObjectsPtrsWrapper {
+private:
+  ObjectsPtrsList objs;
+  ObjectsWeakPtrsList weaks;
+
+public:
+  ObjectsPtrsWrapper(bool init = false) : objs() {
+    if (init) {
+      std::vector<std::weak_ptr<Object>> weakPtrVector;
+      weakPtrVector.reserve(objs.get().size()); // Réservez de l'espace pour éviter les allocations inutiles
+
+      std::transform(objs.get().begin(), objs.get().end(), std::back_inserter(weakPtrVector),
+                     [](const std::shared_ptr<Object> &sharedPtr) { return std::weak_ptr<Object>(sharedPtr); });
+      weaks = ObjectsWeakPtrsList(weakPtrVector);
+    } else {
+      objs.clear();
+    }
+  }
+
+  ~ObjectsPtrsWrapper() = default;
+
+  template <typename ArchiveT> inline void serialize(ArchiveT &ar, [[maybe_unused]] const unsigned int file_version) {
+    ar &BOOST_SERIALIZATION_NVP(objs);
+    ar &BOOST_SERIALIZATION_NVP(weaks);
+  }
+
+  const ObjectsPtrsList &getObjs() const { return objs; }
+  const ObjectsWeakPtrsList &getWeaks() const { return weaks; }
+
+  void clear() {
+    objs.clear();
+    weaks.clear();
+  }
+};
+
+BOOST_CLASS_EXPORT_KEY(ObjectsPtrsWrapper)
 
 class ObjectWithEnum {
 public:

@@ -76,5 +76,4 @@ At least CMake v3.13.
 ### Only tested on Linux
 Probably only working on Linux ?
 
-### Effort needed for std::weak_ptr
 

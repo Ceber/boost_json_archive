@@ -37,14 +37,20 @@ public:
   template <typename T> void load_smart_ptr(T &value) {
     typename T::element_type *t = nullptr;
     detail::common_iarchive<json_iarchive>::load_override(t);
-    if constexpr (detail::is_shared_ptr<T>::value) {
-      if (m_ref && _shared_hack.count((uint64_t)(t))) {
+    if constexpr (detail::is_shared_ptr<T>::value || detail::is_weak_ptr<T>::value) {
+      if (_shared_hack.count((uint64_t)(t))) {
         value = static_pointer_cast<typename T::element_type>(_shared_hack[(uint64_t)(t)]);
-        m_ref = false;
       } else {
-        value.reset(t);
-        _shared_hack[(uint64_t)(t)] =
-            reinterpret_pointer_cast<void>(const_pointer_cast<typename std::remove_const<typename T::element_type>::type>(value));
+        if constexpr (detail::is_weak_ptr<T>::value) {
+          auto sptr = std::shared_ptr<typename T::element_type>(t);
+          value = sptr;
+          _shared_hack[(uint64_t)(t)] = reinterpret_pointer_cast<void>(
+              const_pointer_cast<typename std::remove_const<typename T::element_type>::type>(sptr));
+        } else {
+          value.reset(t);
+          _shared_hack[(uint64_t)(t)] = reinterpret_pointer_cast<void>(
+              const_pointer_cast<typename std::remove_const<typename T::element_type>::type>(value));
+        }
       }
     } else {
       value.reset(t);
@@ -105,7 +111,7 @@ public:
       load(vec);
       std::transform(vec.begin(), vec.end(), std::inserter(value, value.end()),
                      [](const auto &pair) { return std::make_pair(pair.first, pair.second); });
-    } else if constexpr (detail::is_shared_ptr<T>::value || detail::is_unique_ptr<T>::value) {
+    } else if constexpr (detail::is_shared_ptr<T>::value || detail::is_unique_ptr<T>::value || detail::is_weak_ptr<T>::value) {
       load_smart_ptr<T>(value);
     } else {
       detail::common_iarchive<json_iarchive>::load_override(value);
@@ -178,10 +184,6 @@ private:
    * @brief Current "pointer level". To know if we have to check for values under "/px/" nodes.
    */
   uint32_t m_px_level = 0;
-  /**
-   * @brief True if the currently processed object is a reference to another object.
-   */
-  bool m_ref = false;
   /**
    * @brief Storage for shared pointers (std::shared_ptr).
    */

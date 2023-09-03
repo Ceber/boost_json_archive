@@ -16,6 +16,7 @@
 #include <boost/serialization/shared_ptr.hpp>
 #include <boost/serialization/unique_ptr.hpp>
 #include <boost/serialization/unordered_map.hpp>
+#include <boost/serialization/weak_ptr.hpp>
 
 class BoostSerializationJsonTest : public ::testing::Test {
 protected:
@@ -688,4 +689,53 @@ TEST_F(BoostSerializationJsonTest, Serialize_ObjectSptrWithStruct) {
   EXPECT_EQ(booboo->get_struct(), loaded_o->get_struct());
 }
 
-// TEST_F(BoostSerializationJsonTest, Serialize_WeakPtrObject) { FAIL(); }
+TEST_F(BoostSerializationJsonTest, Serialize_WeakPtrObject) {
+  std::stringstream ss;
+  std::shared_ptr<ObjectsPtrsList> booboo = std::make_shared<ObjectsPtrsList>();
+  std::vector<std::weak_ptr<Object>> weakPtrVector;
+  weakPtrVector.reserve(booboo->get().size()); // Réservez de l'espace pour éviter les allocations inutiles
+
+  std::transform(booboo->get().begin(), booboo->get().end(), std::back_inserter(weakPtrVector),
+                 [](const std::shared_ptr<Object> &sharedPtr) { return std::weak_ptr<Object>(sharedPtr); });
+  ObjectsWeakPtrsList weak_list_obj(weakPtrVector);
+  {
+    boost::archive::json_oarchive oa{ss, 0, true};
+    oa << boost::make_nvp("ObjectsWeakPtrsList", weak_list_obj);
+  }
+  GTEST_COUT << ss.str() << GTEST_ENDL;
+
+  ObjectsWeakPtrsList loaded_o;
+  std::istringstream iss(ss.str().c_str());
+  boost::archive::json_iarchive ia{iss};
+  ia >> boost::make_nvp("ObjectsWeakPtrsList", loaded_o);
+
+  int index = 0;
+  for (auto &boo : booboo->get()) {
+    EXPECT_EQ(*boo, *loaded_o.get()[index].lock());
+    index++;
+  }
+}
+
+TEST_F(BoostSerializationJsonTest, Serialize_ObjectsSptrsWrapper) {
+  std::stringstream ss;
+  std::shared_ptr<ObjectsPtrsWrapper> booboo = std::make_shared<ObjectsPtrsWrapper>(true);
+  {
+    boost::archive::json_oarchive oa{ss, 0, true};
+    oa << boost::make_nvp("ObjectsPtrsWrapper", booboo);
+  }
+  GTEST_COUT << ss.str() << GTEST_ENDL;
+
+  std::shared_ptr<ObjectsPtrsWrapper> loaded_o = std::make_shared<ObjectsPtrsWrapper>();
+  EXPECT_EQ(loaded_o->getObjs().get().size(), 0);
+  loaded_o.reset();
+
+  std::istringstream iss(ss.str().c_str());
+  boost::archive::json_iarchive ia{iss};
+  ia >> boost::make_nvp("ObjectsPtrsWrapper", loaded_o);
+
+  EXPECT_EQ(booboo->getObjs().get().size(), loaded_o->getObjs().get().size());
+  EXPECT_EQ(booboo->getWeaks().get().size(), loaded_o->getWeaks().get().size());
+  EXPECT_TRUE(std::dynamic_pointer_cast<BoolsObject>(loaded_o->getWeaks().get()[0].lock()));
+}
+
+// TEST_F(BoostSerializationJsonTest, Serialize_ObjectsSptrsWrappersWithCircularReferences) { FAIL(); }

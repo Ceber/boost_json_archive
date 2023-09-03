@@ -81,6 +81,9 @@ public:
     } else if constexpr (detail::is_shared_ptr<T>::value or detail::is_unique_ptr<T>::value) {
       typename T::element_type *ptr = value.get();
       detail::common_oarchive<json_oarchive>::save_override(ptr);
+    } else if constexpr (detail::is_weak_ptr<T>::value) {
+      typename T::element_type *ptr = value.lock().get();
+      detail::common_oarchive<json_oarchive>::save_override(ptr);
     } else {
       detail::common_oarchive<json_oarchive>::save_override(value);
     }
