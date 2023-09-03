@@ -146,6 +146,9 @@ template <typename T> void stdVectorSerialize(std::string name, std::vector<T> v
     ASSERT_EQ(val.size(), loaded_o.size());
     for (unsigned int i = 0; i < val.size(); i++) {
       EXPECT_EQ(*val[i], *loaded_o[i]);
+      if constexpr (!boost::archive::detail::is_shared_ptr<T>::value && !boost::archive::detail::is_unique_ptr<T>::value) {
+        delete loaded_o[i];
+      }
     }
   } else {
     EXPECT_EQ(val, loaded_o);
@@ -192,6 +195,9 @@ template <typename T, int size> void stdArraySerialize(std::string name, std::ar
     ASSERT_EQ(val.size(), loaded_o.size());
     for (unsigned int i = 0; i < val.size(); i++) {
       EXPECT_EQ(*val[i], *loaded_o[i]);
+      if constexpr (!boost::archive::detail::is_shared_ptr<T>::value && !boost::archive::detail::is_unique_ptr<T>::value) {
+        delete loaded_o[i];
+      }
     }
   } else {
     EXPECT_EQ(val, loaded_o);
