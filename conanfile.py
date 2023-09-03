@@ -31,7 +31,7 @@ class Boost_Json_ArchiveConan(ConanFile):
         "build_tools": False,
     }
 
-    requires = ("boost/[>=1.75.0 <=1.79.0]")
+    requires = ("boost/[>=1.75.0]")
 
     exports_sources = [
         "src/*",
@@ -40,10 +40,9 @@ class Boost_Json_ArchiveConan(ConanFile):
         "unit-tests/*",
         "doc/*",
         "README.md",
-        "LICENSE.txt",
+        "LICENSE",
         "CMakeLists.txt",
         "boost_json_archiveConfig.cmake.in",
-        "version.py",
     ]
 
     def set_version(self):
