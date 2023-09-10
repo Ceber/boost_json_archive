@@ -81,7 +81,7 @@ void json_iarchive::load_override(class_id_optional_type &t) {
     return;
   }
 
-  t = class_id_optional_type(class_id_type(static_cast<uint64_t>(data.as_int64())));
+  t = class_id_optional_type(class_id_type(static_cast<size_t>(data.as_int64())));
 }
 
 void json_iarchive::load_override(class_id_reference_type &t) {
@@ -92,7 +92,7 @@ void json_iarchive::load_override(class_id_reference_type &t) {
   if (!data.is_number()) {
     return;
   }
-  t = class_id_reference_type(class_id_type(static_cast<uint64_t>(data.as_int64())));
+  t = class_id_reference_type(class_id_type(static_cast<size_t>(data.as_int64())));
 }
 
 void json_iarchive::load_override(tracking_type &t) {
