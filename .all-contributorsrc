@@ -1,0 +1,27 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "Tarnyko",
+      "name": "Tarnyko",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3727259?v=4",
+      "profile": "http://www.tarnyko.net",
+      "contributions": [
+        "infra",
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "boost_json_archive",
+  "projectOwner": "Ceber"
+}
