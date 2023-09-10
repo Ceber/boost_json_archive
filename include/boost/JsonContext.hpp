@@ -27,17 +27,17 @@ const std::string TrackingType("tracking");
 
 #ifdef __GNUG__
 
-std::string demangle(const char *name);
+std::string BOOST_SYMBOL_EXPORT demangle(const char *name);
 
 #else
 // does nothing if not g++
-std::string demangle(const char *name);
+std::string BOOST_SYMBOL_EXPORT demangle(const char *name);
 #endif
 
 /**
  * @brief JsonContext Class. Helper for boost::serialization::json.
  */
-class JsonContext {
+class BOOST_SYMBOL_EXPORT JsonContext {
 
 public:
   typedef std::shared_ptr<boost::json::value> json_value;

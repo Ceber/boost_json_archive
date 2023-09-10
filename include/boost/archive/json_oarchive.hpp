@@ -17,7 +17,7 @@
 namespace boost {
 namespace archive {
 
-class json_oarchive : public detail::common_oarchive<json_oarchive> {
+class BOOST_SYMBOL_EXPORT json_oarchive : public detail::common_oarchive<json_oarchive> {
 public:
   explicit json_oarchive(std::ostream &os, unsigned int = 0, const bool prettify = false);
 
