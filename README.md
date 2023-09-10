@@ -71,9 +71,15 @@ If there is a demonstrated need for C++11/14 support, getting things in shape wo
 
 At least CMake v3.13.
 
-### Known issues / Limitations
+### Contributors
+Special thanks to you !
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
 
-### Only tested on Linux
-Probably only working on Linux ?
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 
