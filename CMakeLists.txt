@@ -42,6 +42,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include/)
 add_library(${PROJECT_NAME} SHARED ${boost_json_archive_SRC})
 
 target_link_libraries(${PROJECT_NAME}
+	Boost::serialization
 	Boost::json
 )
 
