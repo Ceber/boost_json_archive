@@ -27,7 +27,7 @@ set(INSTALL_LIB_DIR      ${BASE_INSTALL_DIR}/lib                                
 set(INSTALL_BIN_DIR      ${BASE_INSTALL_DIR}/bin                                     CACHE PATH "Installation directory for executables")
 set(INSTALL_INCLUDE_DIR  ${BASE_INSTALL_DIR}/include                                 CACHE PATH "Installation directory for header files")
 if(WIN32 AND NOT CYGWIN)
-  set(DEF_INSTALL_CMAKE_DIR CMake)
+  set(DEF_INSTALL_CMAKE_DIR ${BASE_INSTALL_DIR}/CMake/)
 else()
   set(DEF_INSTALL_CMAKE_DIR ${INSTALL_LIB_DIR}/CMake/)
 endif()
