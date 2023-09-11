@@ -10,7 +10,7 @@
 
 This library provides JSON input/output archive objects usable with [boost serialization](https://www.boost.org/doc/libs/1_75_0/libs/serialization/doc/serialization.html) module.
 
-It is inspired by [json_archive](https://github.com/Greedysky/json_archive) and [boost_archive_json](https://github.com/briancairl/boost_archive_json), and essentially serves as "boost only" version for the isolated human-readable JSON serialization/de-serialization use case with no other external dependencies. As such, no external header-only library is in use.
+It is inspired by [json_archive](https://github.com/Greedysky/json_archive) and [boost_archive_json](https://github.com/briancairl/boost_archive_json), and essentially serves as "boost only" version for the isolated human-readable JSON serialization/de-serialization use-case with no other external dependencies. As such, no external header-only library is in use.
 
 Instead, this library makes use of the [boost_json](https://www.boost.org/doc/libs/1_75_0/libs/json/doc/html/index.html) library as a backbone for serialization. This is a outstandingly easy to used and performant C++ JSON library.
 
