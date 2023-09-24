@@ -194,12 +194,12 @@ public:
    */
   void setCurrent(std::string tag, std::shared_ptr<boost::json::value> &v);
   /**
-   * @brief Set the currently processes tag.
+   * @brief Set the currently processed tag.
    * @param tag
    */
   void setCurrentTag(std::string tag);
   /**
-   * @brief Get the currently processes tag.
+   * @brief Get the currently processed tag.
    * @return std::string
    */
   std::string currentTag();
