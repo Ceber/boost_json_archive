@@ -12,6 +12,12 @@
 #include <boost/serialization/nvp.hpp>
 #include <boost/serialization/string.hpp>
 
+#include <memory>
+#include <sstream>
+
+#if defined(DEBUG_MODE) && !defined(ANDROID)
+#include <iostream>
+#endif
 
 namespace param {
 const std::string ClassNameType("class_name");
