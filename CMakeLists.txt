@@ -66,6 +66,19 @@ if(BUILD_TESTS)
 endif(BUILD_TESTS)
 
 
+if(BUILD_DEMOS)
+     file(GLOB_RECURSE ${PROJECT_NAME}_DEMOS
+         "demos/**.cpp"
+     )
+
+     foreach(FILE_PATH ${${PROJECT_NAME}_DEMOS})
+         string(REPLACE ".cpp" "" EXE_PATH ${FILE_PATH})
+         get_filename_component(EXENAME ${EXE_PATH} NAME)
+         add_executable(${EXENAME} ${FILE_PATH})
+         target_link_libraries(${EXENAME} ${PROJECT_NAME})
+     endforeach()
+endif(BUILD_DEMOS)
+
 ############################################################################
 # Settings + Directories + Export Install + CPack
 ############################################################################

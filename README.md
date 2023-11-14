@@ -43,7 +43,13 @@ conan create . -pr:b=default -pr:h=Linux_Release --build boost_json_archive --bu
 
 
 ## Usage
-See unit-tests.
+See "demos/" and "unit-tests/".
+
+## Running demos
+From build folder:
+```
+./bin/<demo>
+```
 
 ## Running unit-tests
 
