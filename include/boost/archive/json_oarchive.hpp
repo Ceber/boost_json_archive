@@ -43,9 +43,13 @@ public:
     for (const auto &v : value) {
       if constexpr ((std::is_class<typename T::value_type>::value && !std::is_same<typename T::value_type, std::string>::value) ||
                     std::is_pointer<typename T::value_type>::value) {
-        boost::json::object o;
-        auto sptr = std::make_shared<json::value>(o);
-        m_ctx.push(std::to_string(index), sptr);
+        if constexpr ((detail::is_std_vector<typename T::value_type>::value or
+                       detail::is_fixed_size_array<typename T::value_type>::value) or
+                      detail::is_fixed_size_old_school_array<typename T::value_type>::value) {
+          m_ctx.push(std::to_string(index), std::make_shared<json::value>(boost::json::array()));
+        } else {
+          m_ctx.push(std::to_string(index), std::make_shared<json::value>(boost::json::object()));
+        }
         save(v);
         array.push_back(*m_ctx.top().second);
       } else {

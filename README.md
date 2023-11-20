@@ -80,6 +80,9 @@ If there is a demonstrated need for C++11/14 support, getting things in shape wo
 
 At least CMake v3.13.
 
+### Limitations
+- Multidimensional arrays are only supported with std::array (serializing `int[X][Y]` does not work).
+
 ### Contributors ✨
 Special thanks to you !
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->

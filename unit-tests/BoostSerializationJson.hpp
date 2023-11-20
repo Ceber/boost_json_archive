@@ -215,6 +215,25 @@ TEST_F(BoostSerializationJsonTest, Serialize_StdUIntArray) {
   stdArraySerialize<uint64_t, 4>("uint_array", {ULONG_MAX, ULONG_MAX - 1, ULONG_MAX - 2, ULONG_MAX - 3});
 }
 
+TEST_F(BoostSerializationJsonTest, Serialize_StdArrayOfIntArray) {
+  stdArraySerialize<std::array<int, 4>, 4>("array_of_int_array",
+                                           {std::array<int, 4>{0, 1, 2, 3}, std::array<int, 4>{0, 1, 2, 3},
+                                            std::array<int, 4>{0, 1, 2, 3}, std::array<int, 4>{0, 1, 2, 3}});
+}
+
+TEST_F(BoostSerializationJsonTest, Serialize_StdArrayOfArrayOfIntArray) {
+  stdArraySerialize<std::array<std::array<int, 4>, 4>, 4>(
+      "array_of_array_of_int_array",
+      {std::array<std::array<int, 4>, 4>{std::array<int, 4>{0, 1, 2, 3}, std::array<int, 4>{0, 1, 2, 3},
+                                         std::array<int, 4>{0, 1, 2, 3}, std::array<int, 4>{0, 1, 2, 3}},
+       std::array<std::array<int, 4>, 4>{std::array<int, 4>{0, 1, 2, 3}, std::array<int, 4>{0, 1, 2, 3},
+                                         std::array<int, 4>{0, 1, 2, 3}, std::array<int, 4>{0, 1, 2, 3}},
+       std::array<std::array<int, 4>, 4>{std::array<int, 4>{0, 1, 2, 3}, std::array<int, 4>{0, 1, 2, 3},
+                                         std::array<int, 4>{0, 1, 2, 3}, std::array<int, 4>{0, 1, 2, 3}},
+       std::array<std::array<int, 4>, 4>{std::array<int, 4>{0, 1, 2, 3}, std::array<int, 4>{0, 1, 2, 3},
+                                         std::array<int, 4>{0, 1, 2, 3}, std::array<int, 4>{0, 1, 2, 3}}});
+}
+
 TEST_F(BoostSerializationJsonTest, Serialize_StdDoubleArray) {
   stdArraySerialize<double, 4>("double_array", {-123.345, 234.35, 324234.2342, 344.3334});
 }
